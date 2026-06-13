@@ -1,0 +1,68 @@
+{
+  "skill": "google-ads-creator",
+  "description": "触发评测：正例应加载本 skill（离线生成 Google Ads CSV / 投放计划），near-miss 不应加载（应走 google-ads-api 直接读写账户，或其他 skill）。",
+  "positive": [
+    {
+      "query": "帮我制定一份 Google Ads 投放计划，我是做 PVC 原料出口的",
+      "expect_load": true,
+      "reason": "任务一：问答引导生成投放计划文档"
+    },
+    {
+      "query": "我有投放计划了，帮我生成可以导入 Google Ads Editor 的 CSV 文件",
+      "expect_load": true,
+      "reason": "任务二：按计划生成新建导入 CSV"
+    },
+    {
+      "query": "create a google ads search campaign import file for me",
+      "expect_load": true,
+      "reason": "任务二英文触发，离线生成导入文件"
+    },
+    {
+      "query": "我从 Google Ads Editor 导出了现有广告数据，想改完预算再上传，帮我生成更新 CSV",
+      "expect_load": true,
+      "reason": "任务三：基于导出数据生成更新 CSV"
+    },
+    {
+      "query": "帮我准备一批响应式搜索广告的投放素材，要能批量上传的",
+      "expect_load": true,
+      "reason": "任务二：生成 RSA 导入文件"
+    },
+    {
+      "query": "plan my ad campaign and generate the bulk upload csv",
+      "expect_load": true,
+      "reason": "任务一+任务二串联，离线产物"
+    },
+    {
+      "query": "帮我生成谷歌广告的关键词和广告组导入文件",
+      "expect_load": true,
+      "reason": "任务二：keyword/ad_group CSV"
+    },
+    {
+      "query": "改完文案后重新上传会报错，帮我弄一份能正确更新的 CSV",
+      "expect_load": true,
+      "reason": "任务三路由信号：更新/重新上传报错"
+    }
+  ],
+  "near_miss": [
+    {
+      "query": "查一下我账户里最近 7 天的搜索词报告",
+      "expect_load": false,
+      "reason": "直接读线上账户数据，应走 google-ads-api，本 skill 只产离线文件"
+    },
+    {
+      "query": "帮我把这几个表现差的关键词在账户里直接暂停掉",
+      "expect_load": false,
+      "reason": "直接写线上账户，走 google-ads-api"
+    },
+    {
+      "query": "给我做一份 Google Ads 账户审计",
+      "expect_load": false,
+      "reason": "读账户结构/表现做审计，走 google-ads-api"
+    },
+    {
+      "query": "帮我把这个 markdown 投放计划转换成 PDF",
+      "expect_load": false,
+      "reason": "纯格式转换，走 format-converter，与生成广告 CSV 无关"
+    }
+  ]
+}
